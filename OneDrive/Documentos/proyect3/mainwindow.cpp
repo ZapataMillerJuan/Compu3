@@ -63,7 +63,7 @@ void MainWindow::on_pushButton_clicked()
 
     paint.translate(ui->widget->width()/2,ui->widget->height()/2);
 
-    paint.rotate(45);
+    paint.rotate(90);
 
     paint.drawPolygon(mypoints,6);
 

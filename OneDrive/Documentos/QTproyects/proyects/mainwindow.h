@@ -2,10 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <qpaintbox.h>
-#include <QPainter>
-#include <QTime>
-#include <QDateTime>
 #include <QTimer>
 
 QT_BEGIN_NAMESPACE
@@ -20,21 +16,21 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-
 private slots:
-
-
+    void on_toolButton_clicked();
     void OnQTimer1();
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
 
 private:
     Ui::MainWindow *ui;
-
-    QPaintBox *QPaintBox1;
+    int count=0;
+    int seg=0;
+    int min=0;
 
     QTimer *QTimer1;
-    QTime *Time;
-
-    int count;
-    int seg;
 };
 #endif // MAINWINDOW_H
