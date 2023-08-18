@@ -55,7 +55,7 @@ void MainWindow::OnQTimer1(){
     paint.setPen(pen);
     paint.translate(ui->widget->width()/2,ui->widget->height()/2);
     for(int i=0;i<12;i++){
-        lines[i].setLine(0,-240,0,-220);
+        lines[i].setLine(0,-240,0,-230);
         paint.rotate(30);
         paint.drawLine(lines[i]);
     }
