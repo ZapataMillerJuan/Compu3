@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+    : QMainWindow(parent, Qt::FramelessWindowHint)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -22,8 +22,6 @@ MainWindow::~MainWindow()
 void MainWindow::OnQTimer1(){
     QTime Time;
     Time = QTime::currentTime();
-    count++;
-    seg++;
     QPainter paint(QPaintBox1->getCanvas());
 
     QPen pen;
@@ -32,11 +30,14 @@ void MainWindow::OnQTimer1(){
 
     QPoint mypoints[3][8];
 
-    QLine lines[12];
+    QLine horas[12];
+    QLine min[60];
+    QDate date;
+    //QRect rect(1,2,8,6);
+
+    date = QDate::currentDate();
 
     pen.setWidth(3);
-
-
 
     pen.setColor(Qt::red);
 
@@ -55,15 +56,27 @@ void MainWindow::OnQTimer1(){
     paint.setPen(pen);
     paint.translate(ui->widget->width()/2,ui->widget->height()/2);
     for(int i=0;i<12;i++){
-        lines[i].setLine(0,-240,0,-230);
+        horas[i].setLine(0,-240,0,-225);
         paint.rotate(30);
-        paint.drawLine(lines[i]);
+        paint.drawLine(horas[i]);
+    }
+    for(int i=0;i<60;i++){
+        min[i].setLine(0,-240,0,-237);
+        paint.rotate(6);
+        paint.drawLine(min[i]);
     }
 
+
     paint.restore();
-    pen.setColor(Qt::gray);
+    pen.setColor(Qt::cyan);
     paint.setPen(pen);
-    paint.setBrush(brush);
+    paint.save();
+    paint.translate(ui->widget->width()/2-55,ui->widget->height()/2);
+    paint.setFont(QFont("Fecha",20));
+    paint.drawText(1,50,QString("%1 %2 %3").arg(date.day(),1,10,QChar('0')).arg(date.month(),1,10,QChar('0')).arg(date.year(),1,10,QChar('0')));
+    paint.restore();
+
+
 
     pen.setColor(Qt::lightGray);
     paint.setPen(pen);
@@ -104,24 +117,23 @@ void MainWindow::OnQTimer1(){
         mypoints[1][1].setX(4);
         mypoints[1][1].setY(0);
         mypoints[1][2].setX(4);
-            mypoints[1][2].setY(150);
-            mypoints[1][3].setX(0);
-            mypoints[1][3].setY(165);
-            mypoints[1][4].setX(-4);
-            mypoints[1][4].setY(150);
-            mypoints[1][5].setX(-4);
-            mypoints[1][5].setY(0);
+        mypoints[1][2].setY(150);
+        mypoints[1][3].setX(0);
+        mypoints[1][3].setY(165);
+        mypoints[1][4].setX(-4);
+        mypoints[1][4].setY(150);
+        mypoints[1][5].setX(-4);
+        mypoints[1][5].setY(0);
 
-            paint.save();
+        paint.save();
 
-            paint.rotate(180+(Time.minute()*6.0));
+        paint.rotate(180+(Time.minute()*6.0));
 
-            paint.drawPolygon(mypoints[1],6);
+        paint.drawPolygon(mypoints[1],6);
+        paint.restore();
 
-            paint.restore();
-            //paint.rotate(-180-(Time.minute()*6.0));
 
-            paint.translate(-(ui->widget->width()/2),-ui->widget->height()/2);
+        paint.translate(-(ui->widget->width()/2),-ui->widget->height()/2);
         }else{
                 pen.setColor(Qt::lightGray);
                 paint.setPen(pen);
@@ -163,12 +175,6 @@ void MainWindow::OnQTimer1(){
         paint.setPen(pen);
 
         paint.drawEllipse((ui->widget->width()/2)-10,(ui->widget->height()/2)-10,20,20);
-        //QPaintBox1->update();
-
-
-
-    if(count == 60000)
-        count = 0;
 
     QPaintBox1->update();
 }
